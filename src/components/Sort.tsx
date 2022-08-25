@@ -1,8 +1,16 @@
 import React, { useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../hooks/hooks'
+import { setSortItems } from '../redux/slices/filterSlice'
 
 const Sort = () => {
-  const sortItems = ['popularity', 'price', 'A-Z']
-  const [activeItem, setActiveItems] = useState(0)
+
+  const dispatch = useAppDispatch()
+
+  const sort = useAppSelector(state => state.filterSlice.sort)
+
+  const sortItems = [{ name: 'popularity', property: 'rating' },
+    { name: 'price', property: 'price' },
+    { name: 'A-Z', property: 'title' }]
   const [isVisible, setIsVisible] = useState(false)
   return (
     <div className='sort'>
@@ -20,20 +28,20 @@ const Sort = () => {
           />
         </svg>
         <b>Sorting by:</b>
-        <span onClick={() => setIsVisible(!isVisible)}>{sortItems[activeItem]}</span>
+        <span onClick={() => setIsVisible(!isVisible)}>{sort.name}</span>
       </div>
       {
         isVisible &&
         <div className='sort__popup'>
           <ul>
-            {sortItems.map(((value, i) => (
+            {sortItems.map(((obj, i) => (
               <li key={i}
                   onClick={() => {
-                    setActiveItems(i)
+                    dispatch(setSortItems(obj))
                     setIsVisible(!isVisible)
                   }}
-                  className={activeItem === i ? 'active' : ''}>
-                {value}
+                  className={sort.name === obj.name ? 'active' : ''}>
+                {obj.name}
               </li>
             )))}
           </ul>
