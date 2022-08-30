@@ -2,16 +2,20 @@ import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks/hooks'
 import { setSortItems } from '../redux/slices/filterSlice'
 
+export const sortItems = [{ name: 'popularity', property: 'rating' },
+  { name: 'price', property: 'price' },
+  { name: 'A-Z', property: 'title' }]
+
+
 const Sort = () => {
+
+  const [isVisible, setIsVisible] = useState(false)
 
   const dispatch = useAppDispatch()
 
   const sort = useAppSelector(state => state.filterSlice.sort)
 
-  const sortItems = [{ name: 'popularity', property: 'rating' },
-    { name: 'price', property: 'price' },
-    { name: 'A-Z', property: 'title' }]
-  const [isVisible, setIsVisible] = useState(false)
+
   return (
     <div className='sort'>
       <div className='sort__label'>

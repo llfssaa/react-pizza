@@ -75,6 +75,11 @@ body {
       margin: 0;
     }
   }
+
+  .content__pagination {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .cart {

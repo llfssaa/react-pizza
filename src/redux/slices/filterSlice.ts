@@ -7,29 +7,35 @@ type Sort = {
 }
 
 interface FilterState {
-  categoryId: number,
-  sort: Sort
+  category: number,
+  sort: Sort,
+  page: number
 }
 
 const initialState: FilterState = {
-  categoryId: 0,
+  category: 0,
   sort: { name: 'popularity', property: 'rating' },
+  page: 1,
 }
 
 const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
-    setCategoryId(state, action: PayloadAction<number>) {
-      state.categoryId = action.payload
+    setCategory(state, action: PayloadAction<number>) {
+      state.category = action.payload
     },
     setSortItems(state, action) {
       state.sort = action.payload
     },
+    setPageNumber(state, action) {
+      state.page = action.payload
+      console.log(action.payload)
+    },
   },
 })
 
-export const { setCategoryId, setSortItems } = filterSlice.actions
+export const { setCategory, setSortItems, setPageNumber } = filterSlice.actions
 
 export const selectFilter = (state: RootState) => state.filterSlice
 
