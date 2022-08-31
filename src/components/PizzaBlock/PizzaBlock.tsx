@@ -1,8 +1,16 @@
 import React, { useState } from 'react'
 import { Item } from '../../types/types'
+import { useAppDispatch } from '../../hooks/hooks'
+import { addItem } from '../../redux/slices/cartSlice'
 
+interface PizzaBlockProps {
+  item: Item;
+}
 
-const PizzaBlock = ({ name, price, imageUrl, sizes, types }: Item) => {
+const PizzaBlock = (props: PizzaBlockProps) => {
+
+  const dispatch = useAppDispatch()
+
 
   const typeNames = ['thin', 'traditional']
   const [count, setCount] = useState(0)
@@ -13,13 +21,13 @@ const PizzaBlock = ({ name, price, imageUrl, sizes, types }: Item) => {
       <div className='pizza-block'>
         <img
           className='pizza-block__image'
-          src={imageUrl}
+          src={props.item.imageUrl}
           alt='Pizza'
         />
-        <h4 className='pizza-block__title'>{name}</h4>
+        <h4 className='pizza-block__title'>{props.item.name}</h4>
         <div className='pizza-block__selector'>
           <ul>
-            {types.map((type, i) => (
+            {props.item.types.map((type: number, i: number) => (
               <li key={i}
                   onClick={() => setActiveT(i)}
                   className={activeT === i ? 'active' : ''}
@@ -28,14 +36,14 @@ const PizzaBlock = ({ name, price, imageUrl, sizes, types }: Item) => {
             ))}
           </ul>
           <ul>
-            {sizes.map((size, i) => (
+            {props.item.sizes.map((size, i) => (
               <li key={i} onClick={() => setActive(i)} className={active === i ? 'active' : ''}> {size} </li>
             ))}
 
           </ul>
         </div>
         <div className='pizza-block__bottom'>
-          <div className='pizza-block__price'>от {price} L</div>
+          <div className='pizza-block__price'>от {props.item.price} L</div>
           <div className='button button--outline button--add'>
             <svg
               width='12'
@@ -49,7 +57,11 @@ const PizzaBlock = ({ name, price, imageUrl, sizes, types }: Item) => {
                 fill='white'
               />
             </svg>
-            <span onClick={() => setCount(count + 1)}>Add</span>
+            <span onClick={() => {
+              setCount(count + 1)
+              dispatch(addItem(props.item))
+
+            }}>Add</span>
             <i>{count}</i>
           </div>
         </div>

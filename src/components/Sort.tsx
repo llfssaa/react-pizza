@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks/hooks'
 import { setSortItems } from '../redux/slices/filterSlice'
 
@@ -11,13 +11,30 @@ const Sort = () => {
 
   const [isVisible, setIsVisible] = useState(false)
 
+  const sortRef = useRef<HTMLDivElement>(null)
   const dispatch = useAppDispatch()
 
   const sort = useAppSelector(state => state.filterSlice.sort)
 
 
+  useEffect(() => {
+    const handleOutsideClick = (event: any) => {
+      const path = event.path || (event.composedPath && event.composedPath())
+      if (path && !path.includes(sortRef.current)) {
+        setIsVisible(false)
+      }
+    }
+    document.body.addEventListener('click', handleOutsideClick)
+    return () => {
+      document.body.removeEventListener('click', handleOutsideClick)
+    }
+  }, [])
+
+
   return (
-    <div className='sort'>
+    <div
+      ref={sortRef}
+      className='sort'>
       <div className='sort__label'>
         <svg
           width='10'

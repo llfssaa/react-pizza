@@ -67,9 +67,8 @@ const Home = () => {
                 <Skeleton key={index} />
               ))
               :
-
               items.map((obj: Item) => (
-                <PizzaBlock key={obj.id} {...obj} />
+                <PizzaBlock key={obj.id} item={obj} />
               ))
           }
         </div>
