@@ -44,7 +44,12 @@ const PizzaBlock = (props: PizzaBlockProps) => {
         </div>
         <div className='pizza-block__bottom'>
           <div className='pizza-block__price'>от {props.item.price} L</div>
-          <div className='button button--outline button--add'>
+          <div
+            onClick={() => {
+              setCount(count + 1)
+              dispatch(addItem(props.item))
+            }}
+            className='button button--outline button--add'>
             <svg
               width='12'
               height='12'
@@ -57,11 +62,7 @@ const PizzaBlock = (props: PizzaBlockProps) => {
                 fill='white'
               />
             </svg>
-            <span onClick={() => {
-              setCount(count + 1)
-              dispatch(addItem(props.item))
-
-            }}>Add</span>
+            <span>Add</span>
             <i>{count}</i>
           </div>
         </div>

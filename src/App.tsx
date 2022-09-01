@@ -4,7 +4,7 @@ import './scss/app.scss'
 import Header from './components/Header'
 import Home from './Pages/Home'
 import NotFound from './Pages/NotFound'
-import Cart from './Pages/Cart'
+import Cart from './Pages/Cart/Cart'
 
 
 function App() {

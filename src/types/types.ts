@@ -5,6 +5,7 @@ export interface Item {
   types: Array<number>,
   sizes: Array<number>
   price: number,
+  itemCount: number,
 
 }
 

@@ -2,8 +2,12 @@ import React from 'react'
 import logoSvg from '../assets/img/pizza-logo.svg'
 import { Link } from 'react-router-dom'
 import Search from './Search'
+import { useAppSelector } from '../hooks/hooks'
 
 const Header = () => {
+
+  const totalItems = useAppSelector(state => state.cartSlice.totalItems)
+  const totalPrice = useAppSelector(state => state.cartSlice.totalPrice)
   return (
     <div className='header'>
       <div className='container'>
@@ -19,7 +23,7 @@ const Header = () => {
         <Search />
         <div className='header__cart'>
           <Link to='/cart' className='button button--cart'>
-            <span>520 ₽</span>
+            <span>{totalPrice} L</span>
 
             <svg
               width='18'
@@ -50,7 +54,7 @@ const Header = () => {
                 strokeLinejoin='round'
               />
             </svg>
-            <span>3</span>
+            <span>{totalItems}</span>
           </Link>
         </div>
       </div>
