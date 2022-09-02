@@ -23,7 +23,9 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem(state, action) {
-      if (state.items === [] || !state.items.find(el => el.id === action.payload.id)) {
+      if (state.items === [] || !state.items.find(el => el.id === action.payload.id
+        && el.size == action.payload.size
+        && el.type == action.payload.type)) {
         state.items.push({ ...action.payload, itemCount: 1 })
         state.totalItems = state.totalItems + 1
         state.totalPrice = state.totalPrice + action.payload.price
@@ -40,6 +42,7 @@ const cartSlice = createSlice({
     },
     removeItem(state, action) {
       state.items = state.items.filter(el => el.id !== action.payload.id)
+
       state.totalPizzas = state.totalPizzas - action.payload.itemCount
       state.totalItems = state.totalItems - 1
 
@@ -50,10 +53,13 @@ const cartSlice = createSlice({
       state.items = []
       state.totalPrice = 0
       state.totalItems = 0
+      state.totalPizzas = 0
     },
     itemCountIncrement(state, action) {
       state.items.map(el => {
-        if (el.id === action.payload.id) {
+        if (el.id === action.payload.id
+          && el.size == action.payload.size
+          && el.type == action.payload.type) {
           el.itemCount = el.itemCount + 1
           state.totalPrice = state.totalPrice + action.payload.price
           state.totalPizzas = state.totalPizzas + 1

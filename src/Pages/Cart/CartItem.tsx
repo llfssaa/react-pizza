@@ -22,7 +22,7 @@ const CartItem = (props: CartItemProps) => {
       </div>
       <div className='cart__item-info'>
         <h3>{props.item.name}</h3>
-        <p> thin, 30 sm.</p>
+        <p> {props.item.type}, {props.item.sizes[props.item.size]} sm.</p>
       </div>
       <div className='cart__item-count'>
         <div
@@ -54,10 +54,14 @@ const CartItem = (props: CartItemProps) => {
         </div>
       </div>
       <div className='cart__item-price'>
-        <b>{props.item.price} L</b>
+        <b>{props.item.price * props.item.itemCount} L</b>
       </div>
       <div
-        onClick={() => dispatch(removeItem(props.item))}
+        onClick={() => {
+          if (window.confirm('Are you sure you want to remove')) {
+            dispatch(removeItem(props.item))
+          }
+        }}
         className='cart__item-remove'>
         <div className='button button--outline button--circle'>
           <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>

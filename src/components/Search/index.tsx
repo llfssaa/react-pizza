@@ -22,7 +22,7 @@ const Search = () => {
         ref={inputRef}
         value={text}
         onChange={ev => dispatch(setText(ev.target.value))}
-        className={s.input} placeholder='Пошук пицци' />
+        className={s.input} placeholder='Pizza Search' />
       <svg
         onClick={() => {
           dispatch(deleteText())

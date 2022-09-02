@@ -248,6 +248,14 @@ body {
     }
   }
 
+  &__empty {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: 125px;
+    font-size: 35px;
+  }
+
   &__bottom {
     margin: 50px 0;
 

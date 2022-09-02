@@ -6,6 +6,8 @@ export interface Item {
   sizes: Array<number>
   price: number,
   itemCount: number,
+  type: string,
+  size: number
 
 }
 

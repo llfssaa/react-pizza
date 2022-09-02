@@ -14,8 +14,8 @@ const PizzaBlock = (props: PizzaBlockProps) => {
 
   const typeNames = ['thin', 'traditional']
   const [count, setCount] = useState(0)
-  const [active, setActive] = useState(0)
-  const [activeT, setActiveT] = useState(0)
+  const [activeSize, setActiveSize] = useState(0)
+  const [activeType, setActiveType] = useState(0)
   return (
     <div className='pizza-block__wrapper'>
       <div className='pizza-block'>
@@ -24,20 +24,21 @@ const PizzaBlock = (props: PizzaBlockProps) => {
           src={props.item.imageUrl}
           alt='Pizza'
         />
-        <h4 className='pizza-block__title'>{props.item.name}</h4>
+        <div className='pizza-block__title'>{props.item.name}</div>
         <div className='pizza-block__selector'>
           <ul>
-            {props.item.types.map((type: number, i: number) => (
-              <li key={i}
-                  onClick={() => setActiveT(i)}
-                  className={activeT === i ? 'active' : ''}
+            {props.item.types.map((type: number) => (
+              <li key={type}
+                  onClick={() => setActiveType(type)}
+                  className={activeType === type ? 'active' : ''}
               >
                 {typeNames[type]}</li>
             ))}
           </ul>
           <ul>
             {props.item.sizes.map((size, i) => (
-              <li key={i} onClick={() => setActive(i)} className={active === i ? 'active' : ''}> {size} </li>
+              <li key={i} onClick={() => setActiveSize(i)}
+                  className={activeSize === i ? 'active' : ''}> {size} </li>
             ))}
 
           </ul>
@@ -47,7 +48,7 @@ const PizzaBlock = (props: PizzaBlockProps) => {
           <div
             onClick={() => {
               setCount(count + 1)
-              dispatch(addItem(props.item))
+              dispatch(addItem({ ...props.item, type: typeNames[activeType], size: activeSize }))
             }}
             className='button button--outline button--add'>
             <svg
