@@ -21,6 +21,13 @@ const Home = () => {
   const debounceSearch = useDebounce(search, 750)
   const status = useAppSelector(state => state.pizzasSlice.status)
 
+  const pizzas = items.map((obj: Item) => (
+    <PizzaBlock key={obj.id} item={obj} />
+  ))
+  const skeletons = [...new Array(6)].map((_, index) => (
+    <Skeleton key={index} />
+  ))
+
 
   const getPizzas = () => {
     const category = filter.category
@@ -49,17 +56,15 @@ const Home = () => {
           <Sort />
         </div>
         <h2 className='content__title'>Все пиццы</h2>
-        <div className='content__items'>
-          {
-            status === 'LOADING' ? [...new Array(6)].map((_, index) => (
-                <Skeleton key={index} />
-              ))
-              :
-              items.map((obj: Item) => (
-                <PizzaBlock key={obj.id} item={obj} />
-              ))
-          }
-        </div>
+        {status === 'ERROR' ? (
+          <div className='content__error'>
+            <h2>Something went wrong 😕</h2>
+            <p>Unfortunately, it was not possible to get pizzas. Please try again later</p>
+          </div>
+        ) : (
+          <div className='content__items'>{status === 'LOADING' ? skeletons : pizzas} </div>
+        )}
+
         <Pagination className='content__pagination' count={3} page={filter.page}
                     onChange={(ev, val) => dispatch(setPageNumber(val))} />
       </div>

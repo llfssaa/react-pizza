@@ -23,6 +23,21 @@ body {
     margin: 35px 0;
   }
 
+  &__error {
+    text-align: center;
+    margin: 125px;
+
+    h2 {
+      padding: 15px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 20px;
+    }
+  }
+
   &__items {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
