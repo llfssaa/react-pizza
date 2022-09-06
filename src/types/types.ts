@@ -11,4 +11,11 @@ export interface Item {
 
 }
 
+export type SearchPizzaParams = {
+  sortBy: string;
+  category: number;
+  search: string;
+  page: number;
+};
+
 export type Items = Array<Item>

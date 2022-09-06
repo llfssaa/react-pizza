@@ -6,7 +6,7 @@ type Sort = {
   property: string
 }
 
-interface FilterState {
+export interface FilterState {
   category: number,
   sort: Sort,
   page: number

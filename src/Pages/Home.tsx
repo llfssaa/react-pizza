@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react'
 import Categories from '../components/Categories'
 import Sort from '../components/Sort'
 import { Skeleton } from '../components/PizzaBlock/Skeleton'
@@ -8,47 +7,36 @@ import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
 import { selectFilter, setCategory, setPageNumber } from '../redux/slices/filterSlice'
 import { useAppDispatch, useAppSelector, useDebounce } from '../hooks/hooks'
 import { Pagination } from '@mui/material'
+import { fetchPizzas } from '../redux/slices/pizzasSlice'
 
 
 const Home = () => {
-  const [items, setItems] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
 
+  const items = useAppSelector(state => state.pizzasSlice.items)
 
   const dispatch = useAppDispatch()
 
   const filter = useAppSelector(selectFilter)
   const search = useAppSelector(state => state.searchSlice.text)
-
   const debounceSearch = useDebounce(search, 750)
+  const status = useAppSelector(state => state.pizzasSlice.status)
 
-  const fetchPizzas = () => {
-    setIsLoading(true)
-    axios.get('https://62fccc276e617f88de9e4d1a.mockapi.io/items',
-      filter.category > 0 ?
-        {
-          params: {
-            category: filter.category, sortBy: filter.sort.property,
-            search: search,
-          },
-        } :
-        {
-          params: {
-            sortBy: filter.sort.property, search: search,
-            page: filter.page, limit: 5,
-          },
-        },
-    )
-      .then((res: { data: React.SetStateAction<never[]> }) => {
-        setItems(res.data)
-      })
-    setIsLoading(false)
 
+  const getPizzas = () => {
+    const category = filter.category
+    const sortBy = filter.sort.property
+    const page = filter.page
+    dispatch(fetchPizzas({
+      sortBy,
+      category,
+      search,
+      page,
+    }))
   }
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    fetchPizzas()
+    getPizzas()
   }, [debounceSearch, filter.category, filter.sort, filter.page])
 
 
@@ -63,7 +51,7 @@ const Home = () => {
         <h2 className='content__title'>Все пиццы</h2>
         <div className='content__items'>
           {
-            isLoading ? [...new Array(6)].map((_, index) => (
+            status === 'LOADING' ? [...new Array(6)].map((_, index) => (
                 <Skeleton key={index} />
               ))
               :
