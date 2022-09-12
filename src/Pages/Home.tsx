@@ -8,6 +8,7 @@ import { selectFilter, setCategory, setPageNumber } from '../redux/slices/filter
 import { useAppDispatch, useAppSelector, useDebounce } from '../hooks/hooks'
 import { Pagination } from '@mui/material'
 import { fetchPizzas } from '../redux/slices/pizzasSlice'
+import { Link } from 'react-router-dom'
 
 
 const Home = () => {
@@ -17,12 +18,14 @@ const Home = () => {
   const dispatch = useAppDispatch()
 
   const filter = useAppSelector(selectFilter)
-  const search = useAppSelector(state => state.searchSlice.text)
+  const search = useAppSelector(state => state.filterSlice.search)
   const debounceSearch = useDebounce(search, 750)
   const status = useAppSelector(state => state.pizzasSlice.status)
 
   const pizzas = items.map((obj: Item) => (
-    <PizzaBlock key={obj.id} item={obj} />
+    <Link key={obj.id} to={`pizza/${obj.id}`}>
+      <PizzaBlock item={obj} />
+    </Link>
   ))
   const skeletons = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />

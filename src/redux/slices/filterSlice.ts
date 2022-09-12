@@ -9,13 +9,15 @@ type Sort = {
 export interface FilterState {
   category: number,
   sort: Sort,
-  page: number
+  page: number,
+  search: string,
 }
 
 const initialState: FilterState = {
   category: 0,
   sort: { name: 'popularity', property: 'rating' },
   page: 1,
+  search: '',
 }
 
 const filterSlice = createSlice({
@@ -32,10 +34,16 @@ const filterSlice = createSlice({
       state.page = action.payload
       console.log(action.payload)
     },
+    setSearchText(state, action) {
+      state.search = action.payload
+    },
+    deleteSearchText(state) {
+      state.search = ''
+    },
   },
 })
 
-export const { setCategory, setSortItems, setPageNumber } = filterSlice.actions
+export const { setCategory, setSortItems, setPageNumber, setSearchText, deleteSearchText } = filterSlice.actions
 
 export const selectFilter = (state: RootState) => state.filterSlice
 
