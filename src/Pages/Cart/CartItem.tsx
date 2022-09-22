@@ -25,7 +25,8 @@ const CartItem = (props: CartItemProps) => {
         <p> {props.item.type}, {props.item.sizes[props.item.size]} sm.</p>
       </div>
       <div className='cart__item-count'>
-        <div
+        <button
+          disabled={props.item.itemCount === 1}
           onClick={() => dispatch(itemCountDecrement(props.item))}
           className='button button--outline button--circle cart__item-count-minus'>
           <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -37,9 +38,9 @@ const CartItem = (props: CartItemProps) => {
               fill='#EB5A1E' />
           </svg>
 
-        </div>
+        </button>
         <b>{props.item.itemCount}</b>
-        <div
+        <button
           onClick={() => dispatch(itemCountIncrement(props.item))}
           className='button button--outline button--circle cart__item-count-plus'>
           <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -51,7 +52,7 @@ const CartItem = (props: CartItemProps) => {
               fill='#EB5A1E' />
           </svg>
 
-        </div>
+        </button>
       </div>
       <div className='cart__item-price'>
         <b>{props.item.price * props.item.itemCount} L</b>

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import Categories from '../components/Categories'
+import React, { useCallback, useEffect } from 'react'
+import { Categories } from '../components/Categories'
 import Sort from '../components/Sort'
 import { Skeleton } from '../components/PizzaBlock/Skeleton'
 import { Item } from '../types/types'
@@ -8,10 +8,9 @@ import { selectFilter, setCategory, setPageNumber } from '../redux/slices/filter
 import { useAppDispatch, useAppSelector, useDebounce } from '../hooks/hooks'
 import { Pagination } from '@mui/material'
 import { fetchPizzas } from '../redux/slices/pizzasSlice'
-import { Link } from 'react-router-dom'
 
 
-const Home = () => {
+const Home: React.FC = () => {
 
   const items = useAppSelector(state => state.pizzasSlice.items)
 
@@ -23,9 +22,7 @@ const Home = () => {
   const status = useAppSelector(state => state.pizzasSlice.status)
 
   const pizzas = items.map((obj: Item) => (
-    <Link key={obj.id} to={`pizza/${obj.id}`}>
-      <PizzaBlock item={obj} />
-    </Link>
+    <PizzaBlock key={obj.id} item={obj} />
   ))
   const skeletons = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
@@ -49,16 +46,16 @@ const Home = () => {
     getPizzas()
   }, [debounceSearch, filter.category, filter.sort, filter.page])
 
-
   return (
     <div>
       <div className='container'>
         <div className='content__top'>
-          <Categories value={filter.category} onClickCategories={
-            (i: number) => dispatch(setCategory(i))} />
+          <Categories value={filter.category} onClickCategories={useCallback((idx: number) => {
+            dispatch(setCategory(idx))
+          }, [])} />
           <Sort />
         </div>
-        <h2 className='content__title'>Все пиццы</h2>
+        <h2 className='content__title'>All pizzas</h2>
         {status === 'ERROR' ? (
           <div className='content__error'>
             <h2>Something went wrong 😕</h2>

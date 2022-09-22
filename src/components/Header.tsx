@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import logoSvg from '../assets/img/pizza-logo.svg'
 import { Link } from 'react-router-dom'
 import Search from './Search'
 import { useAppSelector } from '../hooks/hooks'
+import { LS } from '../types/types'
 
-const Header = () => {
+const Header: FC = () => {
 
-  const totalItems = useAppSelector(state => state.cartSlice.totalItems)
-  const totalPrice = useAppSelector(state => state.cartSlice.totalPrice)
+  const { items, totalItems, totalPrice } = useAppSelector(state => state.cartSlice)
+  const isMounted = useRef(false)
+  useEffect
+  (() => {
+    if (isMounted.current) {
+      localStorage[LS.Cart] = JSON.stringify(items)
+      localStorage[LS.TotalItems] = JSON.stringify(totalItems)
+      localStorage[LS.TotalPrice] = JSON.stringify(totalPrice)
+    }
+    isMounted.current = true
+  }, [items])
+
   return (
     <div className='header'>
       <div className='container'>

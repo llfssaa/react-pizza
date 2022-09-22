@@ -1,3 +1,11 @@
+export enum LS {
+  Cart = 'cart',
+  State = 'state',
+  TotalItems = 'totalItems',
+  TotalPrice = 'totalPrice',
+  TotalPizzas = 'totalPizzas'
+}
+
 export interface Item {
   id: number
   imageUrl: string,

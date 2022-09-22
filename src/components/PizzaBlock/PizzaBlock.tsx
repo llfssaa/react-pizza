@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { Item } from '../../types/types'
 import { useAppDispatch } from '../../hooks/hooks'
 import { addItem } from '../../redux/slices/cartSlice'
+import { Link } from 'react-router-dom'
 
 interface PizzaBlockProps {
   item: Item;
 }
 
-const PizzaBlock = (props: PizzaBlockProps) => {
+const PizzaBlock = (props: PizzaBlockProps): JSX.Element => {
 
   const dispatch = useAppDispatch()
 
@@ -19,11 +20,13 @@ const PizzaBlock = (props: PizzaBlockProps) => {
   return (
     <div className='pizza-block__wrapper'>
       <div className='pizza-block'>
-        <img
-          className='pizza-block__image'
-          src={props.item.imageUrl}
-          alt='Pizza'
-        />
+        <Link to={`pizza/${props.item.id}`}>
+          <img
+            className='pizza-block__image'
+            src={props.item.imageUrl}
+            alt='Pizza'
+          />
+        </Link>
         <div className='pizza-block__title'>{props.item.name}</div>
         <div className='pizza-block__selector'>
           <ul>

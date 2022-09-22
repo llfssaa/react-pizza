@@ -209,6 +209,23 @@ body {
             display: none;
           }
         }
+
+        &:disabled {
+          opacity: 0.4;
+          border-color: #787878;
+
+          &:active {
+            transform: none;
+          }
+
+          &:hover {
+            background-color: transparent;
+          }
+
+          svg path {
+            fill: #787878;
+          }
+        }
       }
 
       b {
@@ -351,12 +368,7 @@ body {
       letter-spacing: 0.01em;
       color: #777777;
     }
-
-    icon {
-      position: relative;
-      top: 2px;
-    }
-
+    
     img {
       display: block;
       width: 300px;

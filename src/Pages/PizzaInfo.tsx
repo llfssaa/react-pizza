@@ -5,13 +5,13 @@ import axios from 'axios'
 import { Item } from '../types/types'
 import { useAppDispatch } from '../hooks/hooks'
 
-const PizzaInfo = () => {
+const PizzaInfo: React.FC = () => {
 
   const dispatch = useAppDispatch()
   const { id } = useParams()
   const navigate = useNavigate()
   const [pizza, setPizza] = useState<Item>()
-  console.log(pizza)
+
   useEffect(() => {
     async function fetchPizza() {
       try {
@@ -38,36 +38,38 @@ const PizzaInfo = () => {
       {
         pizza ? (
           <div>
-            <img
-              className='pizza-block__image'
-              src={pizza.imageUrl}
-              alt='Pizza'
-            />
-            <div className='pizza-block__title'>{pizza.name}</div>
-            <div className='pizza-block__selector'>
-              <ul>
-                {pizza.types.map((type: number) => (
-                  <li key={type}
-                      onClick={() => setActiveType(type)}
-                      className={activeType === type ? 'active' : ''}
-                  >
-                    {typeNames[type]}</li>
-                ))}
-              </ul>
-              <ul>
-                {pizza.sizes.map((size, i) => (
-                  <li key={i} onClick={() => setActiveSize(i)}
-                      className={activeSize === i ? 'active' : ''}> {size} </li>
-                ))}
-
-              </ul>
+            <div className='pizza-info'>
+              <div>
+                <img
+                  className='pizza-block__image'
+                  src={pizza.imageUrl}
+                  alt='Pizza'
+                />
+                <div className='pizza-block__title'>{pizza.name}</div>
+              </div>
+              <div className='pizza-info__selector'>
+                <ul>
+                  {pizza.types.map((type: number) => (
+                    <li key={type}
+                        onClick={() => setActiveType(type)}
+                        className={activeType === type ? 'active' : ''}
+                    >
+                      {typeNames[type]}</li>
+                  ))}
+                </ul>
+                <ul>
+                  {pizza.sizes.map((size, i) => (
+                    <li key={i} onClick={() => setActiveSize(i)}
+                        className={activeSize === i ? 'active' : ''}> {size} </li>
+                  ))}
+                </ul>
+              </div>
             </div>
             <div className='pizza-block__bottom'>
-              <div className='pizza-block__price'>от {pizza.price} L</div>
+              <div className='pizza-block__price'> {pizza.price} L</div>
               <div
                 onClick={() => {
-
-                  dispatch(addItem(pizza))
+                  dispatch(addItem({ ...pizza, type: typeNames[activeType], size: activeSize }))
                 }}
                 className='button button--outline button--add'>
                 <svg

@@ -6,7 +6,7 @@ import CartItem from './CartItem'
 import { clearAllItems } from '../../redux/slices/cartSlice'
 
 
-const Cart = () => {
+const Cart: React.FC = () => {
 
   const items = useAppSelector(state => state.cartSlice.items)
   const totalPrice = useAppSelector(state => state.cartSlice.totalPrice)

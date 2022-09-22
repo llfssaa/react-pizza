@@ -1,10 +1,10 @@
-import React, { useRef } from 'react'
+import React, { ChangeEvent, FC, useRef } from 'react'
 import s from './Search.module.scss'
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
 import { setSearchText, deleteSearchText } from '../../redux/slices/filterSlice'
 
 
-const Search = () => {
+const Search: FC = () => {
 
   const text = useAppSelector(state => state.filterSlice.search)
   const dispatch = useAppDispatch()
@@ -21,7 +21,7 @@ const Search = () => {
       <input
         ref={inputRef}
         value={text}
-        onChange={ev => dispatch(setSearchText(ev.target.value))}
+        onChange={(ev: ChangeEvent<HTMLInputElement>) => dispatch(setSearchText(ev.target.value))}
         className={s.input} placeholder='Pizza Search' />
       <svg
         onClick={() => {

@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { Item } from '../../types/types'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Item, LS } from '../../types/types'
 
 
 interface CartState {
@@ -10,19 +10,19 @@ interface CartState {
 
 }
 
-const initialState: CartState = {
-  totalItems: 0,
-  totalPrice: 0,
-  totalPizzas: 0,
-  items: [],
 
+const initialState: CartState = {
+  totalItems: localStorage[LS.TotalItems] ? JSON.parse(localStorage[LS.TotalItems]) : 0,
+  totalPrice: localStorage[LS.TotalPrice] ? JSON.parse(localStorage[LS.TotalPrice]) : 0,
+  totalPizzas: localStorage[LS.TotalPizzas] ? JSON.parse(localStorage[LS.TotalPizzas]) : 0,
+  items: localStorage[LS.Cart] ? JSON.parse(localStorage[LS.Cart]) : [],
 }
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addItem(state, action) {
+    addItem(state, action: PayloadAction<Item>) {
       if (state.items === [] || !state.items.find(el => el.id === action.payload.id
         && el.size == action.payload.size
         && el.type == action.payload.type)) {
@@ -39,8 +39,9 @@ const cartSlice = createSlice({
         state.totalPrice = state.totalPrice + action.payload.price
         state.totalPizzas = state.totalPizzas + 1
       }
+      localStorage[LS.TotalPizzas] = JSON.stringify(state.totalPizzas)
     },
-    removeItem(state, action) {
+    removeItem(state, action: PayloadAction<Item>) {
       state.items = state.items.filter(el => el.id !== action.payload.id)
 
       state.totalPizzas = state.totalPizzas - action.payload.itemCount
@@ -48,14 +49,18 @@ const cartSlice = createSlice({
 
       /*временно*/
       state.totalPrice = state.totalPrice - action.payload.price * action.payload.itemCount
+
+      localStorage[LS.TotalPizzas] = JSON.stringify(state.totalPizzas)
     },
     clearAllItems(state) {
       state.items = []
       state.totalPrice = 0
       state.totalItems = 0
       state.totalPizzas = 0
+
+      localStorage[LS.TotalPizzas] = JSON.stringify(state.totalPizzas)
     },
-    itemCountIncrement(state, action) {
+    itemCountIncrement(state, action: PayloadAction<Item>) {
       state.items.map(el => {
         if (el.id === action.payload.id
           && el.size == action.payload.size
@@ -65,17 +70,20 @@ const cartSlice = createSlice({
           state.totalPizzas = state.totalPizzas + 1
         }
       })
-
+      localStorage[LS.TotalPizzas] = JSON.stringify(state.totalPizzas)
     },
-    itemCountDecrement(state, action) {
+    itemCountDecrement(state, action: PayloadAction<Item>) {
       state.items.map(el => {
-        if (el.id === action.payload.id && el.itemCount > 1) {
+        if (el.id === action.payload.id
+          && el.size == action.payload.size
+          && el.type == action.payload.type) {
+
           el.itemCount = el.itemCount - 1
           state.totalPrice = state.totalPrice - action.payload.price
           state.totalPizzas = state.totalPizzas - 1
         }
       })
-
+      localStorage[LS.TotalPizzas] = JSON.stringify(state.totalPizzas)
     },
 
   },

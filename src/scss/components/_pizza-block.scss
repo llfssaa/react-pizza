@@ -5,6 +5,48 @@
   justify-content: center;
 }
 
+.pizza-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__selector {
+    width: 75%;
+    height: 20%;
+    display: flex;
+    background-color: #f3f3f3;
+    border-radius: 10px;
+    flex-direction: column;
+
+    padding: 6px;
+
+    ul {
+      display: flex;
+      flex: 1;
+
+      &:first-of-type {
+        margin-bottom: 6px;
+      }
+
+      li {
+        padding: 8px;
+        flex: 1;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+        @include noselect();
+
+        &.active {
+          background: #ffffff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+          border-radius: 5px;
+          cursor: auto;
+        }
+      }
+    }
+  }
+}
+
 .pizza-block {
   width: 280px;
   text-align: center;
@@ -20,6 +62,7 @@
     font-size: 20px;
     font-weight: 900;
     margin-bottom: 20px;
+
   }
 
   &__selector {
@@ -60,6 +103,11 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
+
+    &__info {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
   &__price {
