@@ -7,7 +7,7 @@ import NotFound from './Pages/NotFound'
 
 import PizzaInfo from './Pages/PizzaInfo'
 
-const Cart = React.lazy(() => import('./Pages/Cart/Cart'))
+const Cart = React.lazy(() => import(/* webpackChunkName: "Cart" */'./Pages/Cart/Cart'))
 
 function App() {
   return (
